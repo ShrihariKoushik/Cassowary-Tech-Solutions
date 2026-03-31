@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cassowary Tech Solutions – Student Project Experts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Tokens ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #2563EB; --primary-dk: #1D4ED8; --accent: #0EA5E9;
+      --surface: #F8FAFC; --surface-2: #F1F5F9; --border: #E2E8F0;
+      --text: #0F172A; --text-2: #475569; --text-3: #94A3B8;
+      --white: #FFFFFF; --green: #22C55E; --radius: 14px;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 20px rgba(0,0,0,.09);
+      --shadow-lg: 0 12px 40px rgba(37,99,235,.15);
+      --wa: #25D366;
+      --stage-0: #F59E0B; --stage-1: #3B82F6; --stage-2: #8B5CF6; --stage-3: #22C55E;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; overflow-x: hidden; }
+
+    /* ─── Utility ────────────────────────────────────────────── */
+    .hidden { display: none !important; }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(255,255,255,.9); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; color: var(--text); text-decoration: none; }
+    .logo-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: .9rem; flex-shrink: 0; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-2); font-size: .9rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta { background: var(--primary); color: #fff; padding: .5rem 1.2rem; border-radius: 8px; font-weight: 600; font-size: .875rem; text-decoration: none; transition: background .2s, transform .15s; white-space: nowrap; cursor: pointer; border: none; }
+    .nav-cta:hover { background: var(--primary-dk); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); padding: 1.5rem 5%; flex-direction: column; gap: 1rem; z-index: 199; box-shadow: var(--shadow-md); }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: var(--text-2); text-decoration: none; font-weight: 500; padding: .4rem 0; border-bottom: 1px solid var(--border); font-size: .95rem; }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    #hero { min-height: 92vh; display: flex; align-items: center; padding: 6rem 5% 4rem; background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(37,99,235,.07) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 10% 80%, rgba(14,165,233,.06) 0%, transparent 60%), var(--white); }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1200px; margin: 0 auto; width: 100%; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; background: #EFF6FF; color: var(--primary); border: 1px solid #BFDBFE; border-radius: 100px; padding: .35rem .9rem; font-size: .78rem; font-weight: 600; margin-bottom: 1.25rem; }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.3); } }
+    .hero-title { font-size: clamp(2.2rem, 4.5vw, 3.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 1.25rem; }
+    .hero-title .highlight { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-desc { font-size: 1.05rem; color: var(--text-2); max-width: 480px; margin-bottom: 2rem; line-height: 1.75; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--primary); color: #fff; padding: .8rem 1.6rem; border-radius: 10px; font-weight: 700; font-size: .95rem; text-decoration: none; transition: all .2s; box-shadow: var(--shadow-lg); border: none; cursor: pointer; }
+    .btn-primary:hover { background: var(--primary-dk); transform: translateY(-2px); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--border); color: var(--text); padding: .8rem 1.5rem; border-radius: 10px; font-weight: 600; font-size: .95rem; text-decoration: none; transition: all .2s; }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .hero-stats { display: flex; gap: 2rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num { font-size: 1.5rem; font-weight: 800; }
+    .stat-lbl { font-size: .78rem; color: var(--text-3); font-weight: 500; }
+    .hero-visual { display: flex; justify-content: center; align-items: center; }
+    .hero-card-stack { position: relative; width: 340px; height: 380px; }
+    .floating-card { position: absolute; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-md); padding: 1rem 1.2rem; display: flex; align-items: center; gap: .75rem; font-size: .82rem; font-weight: 500; animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .fc-1 { top: 0; left: 10px; animation-delay: 0s; min-width: 200px; }
+    .fc-2 { top: 120px; right: 0; animation-delay: 1s; min-width: 180px; }
+    .fc-3 { bottom: 60px; left: 0; animation-delay: 2s; min-width: 210px; }
+    .fc-4 { top: 240px; right: 20px; animation-delay: 1.5s; min-width: 160px; }
+    .fc-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+
+    /* ─── SECTIONS ───────────────────────────────────────────── */
+    section { padding: 6rem 5%; }
+    .section-tag { display: inline-block; background: #EFF6FF; color: var(--primary); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .3rem .8rem; border-radius: 100px; margin-bottom: 1rem; }
+    .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -.05em; line-height: 1.2; margin-bottom: .75rem; }
+    .section-sub { font-size: 1rem; color: var(--text-2); max-width: 560px; line-height: 1.75; }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-header .section-sub { margin: 0 auto; }
+
+    /* Services */
+    #services { background: var(--surface); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+    .service-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: all .25s; position: relative; overflow: hidden; }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); opacity: 0; transition: opacity .25s; }
+    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: transparent; }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon { width: 52px; height: 52px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1rem; }
+    .service-title { font-size: 1rem; font-weight: 700; margin-bottom: .4rem; }
+    .service-desc { font-size: .875rem; color: var(--text-2); line-height: 1.65; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+    .stag { font-size: .7rem; font-weight: 600; padding: .2rem .6rem; border-radius: 100px; background: var(--surface-2); color: var(--text-2); }
+
+    /* How It Works */
+    .steps { display: flex; gap: 0; max-width: 900px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+    .step { flex: 1 1 200px; text-align: center; padding: 2rem 1.5rem; position: relative; }
+    .step:not(:last-child)::after { content: '→'; position: absolute; right: -12px; top: 2.5rem; font-size: 1.4rem; color: var(--border); font-weight: 700; }
+    .step-num { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; box-shadow: 0 4px 16px rgba(37,99,235,.3); }
+    .step-title { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+    .step-desc { font-size: .875rem; color: var(--text-2); line-height: 1.65; }
+
+    /* Why Us */
+    #why { background: var(--surface); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1100px; margin: 0 auto; }
+    .why-list { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; }
+    .why-item { display: flex; gap: 1rem; align-items: flex-start; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem; transition: box-shadow .2s; }
+    .why-item:hover { box-shadow: var(--shadow-md); }
+    .why-item-icon { width: 44px; height: 44px; border-radius: 11px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .why-item-content h4 { font-size: .95rem; font-weight: 700; margin-bottom: .25rem; }
+    .why-item-content p { font-size: .83rem; color: var(--text-2); line-height: 1.6; }
+    .why-visual { background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 20px; padding: 2.5rem; color: #fff; display: flex; flex-direction: column; gap: 1.5rem; box-shadow: var(--shadow-lg); }
+    .why-visual h3 { font-size: 1.4rem; font-weight: 800; }
+    .why-visual p { font-size: .9rem; opacity: .85; line-height: 1.7; }
+    .tech-pills { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .5rem; }
+    .tech-pill { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: .78rem; font-weight: 600; padding: .3rem .8rem; border-radius: 100px; }
+    .wa-inline-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--wa); color: #fff; padding: .7rem 1.4rem; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: .9rem; transition: all .2s; align-self: flex-start; margin-top: .5rem; }
+    .wa-inline-btn:hover { opacity: .9; transform: translateY(-2px); }
+
+    /* Contact CTA */
+    #contact { background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%); text-align: center; color: #fff; }
+    .contact-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-wa { display: inline-flex; align-items: center; gap: 10px; background: var(--wa); color: #fff; padding: .9rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all .25s; box-shadow: 0 4px 20px rgba(37,211,102,.3); }
+    .btn-wa:hover { transform: translateY(-3px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid rgba(255,255,255,.25); color: rgba(255,255,255,.8); background: transparent; padding: .9rem 1.8rem; border-radius: 12px; font-weight: 600; text-decoration: none; transition: all .25s; font-size: .95rem; }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.6); color: #fff; }
+
+    /* Footer */
+    footer { background: #0F172A; border-top: 1px solid rgba(255,255,255,.06); padding: 2.5rem 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    footer p { color: rgba(255,255,255,.35); font-size: .8rem; }
+    .footer-logo { display: flex; align-items: center; gap: 10px; }
+    .footer-logo span { color: rgba(255,255,255,.8); font-weight: 700; font-size: .9rem; }
+
+    /* WA FAB */
+    .wa-fab { position: fixed; bottom: 28px; right: 28px; z-index: 999; width: 60px; height: 60px; border-radius: 50%; background: var(--wa); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(37,211,102,.4); text-decoration: none; transition: all .25s; animation: wa-bounce 3s ease-in-out infinite; }
+    .wa-fab:hover { transform: scale(1.1); }
+    @keyframes wa-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+    /* Animations */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── AUTH OVERLAY ───────────────────────────────────────── */
+    .auth-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(15,23,42,.55); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .auth-modal {
+      background: var(--white); border-radius: 22px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.18);
+      width: 100%; max-width: 440px;
+      overflow: hidden; position: relative;
+    }
+    .auth-close {
+      position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
+      border-radius: 50%; border: none; background: var(--surface-2);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--text-2); transition: background .2s;
+    }
+    .auth-close:hover { background: var(--border); }
+    .auth-header { padding: 2.5rem 2.5rem 1.5rem; text-align: center; }
+    .auth-logo { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 1.1rem; margin: 0 auto 1.2rem; }
+    .auth-header h2 { font-size: 1.35rem; font-weight: 800; letter-spacing: -.04em; margin-bottom: .4rem; }
+    .auth-header p { font-size: .88rem; color: var(--text-2); }
+    .auth-body { padding: 0 2.5rem 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
+
+    /* Auth steps */
+    .auth-step { display: flex; flex-direction: column; gap: 1rem; }
+
+    .btn-google {
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+      border: 1.5px solid var(--border); background: var(--white); color: var(--text);
+      padding: .8rem 1.2rem; border-radius: 10px; font-weight: 600; font-size: .9rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-google:hover { border-color: var(--primary); background: #EFF6FF; }
+    .btn-google img { width: 20px; height: 20px; }
+
+    .auth-divider { display: flex; align-items: center; gap: .75rem; color: var(--text-3); font-size: .8rem; font-weight: 500; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .auth-input-group { display: flex; flex-direction: column; gap: .4rem; }
+    .auth-input-group label { font-size: .82rem; font-weight: 600; color: var(--text-2); }
+    .auth-input {
+      width: 100%; padding: .75rem 1rem; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: .95rem; font-family: inherit; color: var(--text);
+      outline: none; transition: border-color .2s;
+    }
+    .auth-input:focus { border-color: var(--primary); }
+    .auth-input.error { border-color: #EF4444; }
+
+    .phone-row { display: flex; gap: .6rem; }
+    .country-code {
+      flex-shrink: 0; padding: .75rem .9rem; border: 1.5px solid var(--border);
+      border-radius: 10px; background: var(--surface-2); font-weight: 600; font-size: .9rem;
+      color: var(--text-2);
+    }
+
+    .btn-auth {
+      width: 100%; padding: .85rem; border-radius: 10px; border: none;
+      background: var(--primary); color: #fff; font-weight: 700; font-size: .95rem;
+      cursor: pointer; font-family: inherit; transition: all .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-auth:hover { background: var(--primary-dk); }
+    .btn-auth:disabled { opacity: .6; cursor: not-allowed; }
+
+    .otp-row { display: flex; gap: .6rem; justify-content: center; }
+    .otp-box {
+      width: 50px; height: 56px; border: 1.5px solid var(--border); border-radius: 10px;
+      text-align: center; font-size: 1.4rem; font-weight: 700; font-family: inherit;
+      outline: none; transition: border-color .2s; color: var(--text);
+    }
+    .otp-box:focus { border-color: var(--primary); }
+
+    .auth-back { background: none; border: none; color: var(--text-2); font-size: .85rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 4px; align-self: flex-start; padding: 0; }
+    .auth-back:hover { color: var(--primary); }
+    .auth-error { background: #FEF2F2; border: 1px solid #FECACA; color: #DC2626; border-radius: 8px; padding: .6rem .9rem; font-size: .82rem; font-weight: 500; }
+    .auth-info  { background: #EFF6FF; border: 1px solid #BFDBFE; color: var(--primary); border-radius: 8px; padding: .6rem .9rem; font-size: .82rem; font-weight: 500; }
+    #recaptcha-container { margin-top: .5rem; }
+
+    /* Spinner */
+    .spinner { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── DASHBOARD ──────────────────────────────────────────── */
+    #dashboard { min-height: 100vh; background: var(--surface); }
+
+    /* Dash Nav */
+    .dash-nav {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 0 5%; display: flex; align-items: center; justify-content: space-between;
+      height: 68px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm);
+    }
+    .dash-nav .nav-logo { text-decoration: none; color: var(--text); }
+    .dash-user { display: flex; align-items: center; gap: .75rem; }
+    .user-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: .9rem; overflow: hidden; flex-shrink: 0;
+    }
+    .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .user-name { font-weight: 600; font-size: .9rem; color: var(--text); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .btn-logout { background: none; border: 1.5px solid var(--border); color: var(--text-2); padding: .4rem .9rem; border-radius: 8px; font-size: .82rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; }
+    .btn-logout:hover { border-color: #EF4444; color: #EF4444; }
+
+    /* Dash Content */
+    .dash-content { max-width: 1100px; margin: 0 auto; padding: 2.5rem 5%; }
+    .dash-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+    .dash-greeting h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.04em; }
+    .dash-greeting p { font-size: .9rem; color: var(--text-2); margin-top: .2rem; }
+    .btn-new-project {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--primary); color: #fff; padding: .7rem 1.4rem;
+      border-radius: 10px; font-weight: 700; font-size: .88rem;
+      border: none; cursor: pointer; font-family: inherit; transition: all .2s;
+      text-decoration: none;
+    }
+    .btn-new-project:hover { background: var(--primary-dk); transform: translateY(-1px); }
+
+    /* Tabs */
+    .dash-tabs { display: flex; gap: 0; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 2rem; width: fit-content; }
+    .dash-tab { padding: .55rem 1.25rem; border-radius: 9px; font-size: .875rem; font-weight: 600; color: var(--text-2); cursor: pointer; border: none; background: none; font-family: inherit; transition: all .2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .dash-tab.active { background: var(--primary); color: #fff; box-shadow: 0 2px 8px rgba(37,99,235,.25); }
+
+    /* Projects grid */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+
+    .project-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.5rem; transition: all .25s; display: flex; flex-direction: column; gap: 1.2rem;
+    }
+    .project-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .project-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+    .project-domain { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .25rem .7rem; border-radius: 100px; }
+    .domain-ai     { background: #EFF6FF; color: var(--primary); }
+    .domain-data   { background: #F0FDF4; color: #16A34A; }
+    .domain-cyber  { background: #FAF5FF; color: #7C3AED; }
+    .domain-web    { background: #FFF7ED; color: #D97706; }
+    .domain-cloud  { background: #F0FDFA; color: #0D9488; }
+    .domain-doc    { background: #FFF1F2; color: #E11D48; }
+    .domain-other  { background: var(--surface-2); color: var(--text-2); }
+    .project-title { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.35; }
+    .project-desc  { font-size: .82rem; color: var(--text-2); line-height: 1.6; }
+
+    /* Stage stepper */
+    .stage-stepper { display: flex; align-items: center; gap: 0; }
+    .stage-dot-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+    .stage-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: .65rem; font-weight: 700; color: var(--text-3); transition: all .3s; background: var(--white); }
+    .stage-dot.done { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .stage-dot.active { border-color: var(--primary); color: var(--primary); background: #EFF6FF; box-shadow: 0 0 0 4px rgba(37,99,235,.12); }
+    .stage-dot.s0.active { border-color: var(--stage-0); color: var(--stage-0); background: #FFFBEB; box-shadow: 0 0 0 4px rgba(245,158,11,.12); }
+    .stage-dot.s1.active { border-color: var(--stage-1); color: var(--stage-1); background: #EFF6FF; box-shadow: 0 0 0 4px rgba(59,130,246,.12); }
+    .stage-dot.s2.active { border-color: var(--stage-2); color: var(--stage-2); background: #FAF5FF; box-shadow: 0 0 0 4px rgba(139,92,246,.12); }
+    .stage-dot.s3.active, .stage-dot.s3.done { border-color: var(--stage-3); background: var(--stage-3); color: #fff; box-shadow: 0 0 0 4px rgba(34,197,94,.12); }
+    .stage-lbl { font-size: .62rem; font-weight: 500; color: var(--text-3); text-align: center; line-height: 1.3; max-width: 56px; }
+    .stage-lbl.active-lbl { color: var(--text-2); font-weight: 600; }
+    .stage-line { flex: 1; height: 2px; background: var(--border); margin-bottom: 18px; }
+    .stage-line.done { background: var(--primary); }
+
+    /* Status badge */
+    .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: .3rem .75rem; border-radius: 100px; font-size: .75rem; font-weight: 700; }
+    .status-0 { background: #FFFBEB; color: #B45309; }
+    .status-1 { background: #EFF6FF; color: var(--primary); }
+    .status-2 { background: #FAF5FF; color: #7C3AED; }
+    .status-3 { background: #F0FDF4; color: #15803D; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 1.8s infinite; }
+
+    .project-meta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .meta-item { font-size: .78rem; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+    .project-card-footer { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding-top: .75rem; border-top: 1px solid var(--border); }
+    .project-notes { font-size: .78rem; color: var(--text-2); line-height: 1.5; padding: .6rem .8rem; background: var(--surface-2); border-radius: 8px; }
+
+    .btn-card-wa { display: inline-flex; align-items: center; gap: 6px; background: var(--wa); color: #fff; padding: .45rem .9rem; border-radius: 8px; font-size: .8rem; font-weight: 700; text-decoration: none; transition: all .2s; white-space: nowrap; }
+    .btn-card-wa:hover { opacity: .9; }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 5rem 2rem; }
+    .empty-icon { font-size: 4rem; margin-bottom: 1.25rem; }
+    .empty-state h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: .6rem; }
+    .empty-state p { color: var(--text-2); font-size: .95rem; max-width: 400px; margin: 0 auto 2rem; line-height: 1.7; }
+
+    /* Request project modal */
+    .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(15,23,42,.55); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .modal-box { background: var(--white); border-radius: 20px; box-shadow: 0 24px 60px rgba(0,0,0,.18); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+    .modal-header { padding: 1.75rem 2rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .modal-header h3 { font-size: 1.1rem; font-weight: 800; }
+    .modal-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-3); }
+    .modal-body { padding: 1.75rem 2rem; display: flex; flex-direction: column; gap: 1.1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; }
+    .form-group label { font-size: .82rem; font-weight: 600; color: var(--text-2); }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: .7rem .9rem; border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: .9rem; font-family: inherit; color: var(--text); outline: none; transition: border-color .2s; background: var(--white);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--primary); }
+    .form-textarea { resize: vertical; min-height: 90px; }
+    .modal-footer { padding: 1rem 2rem 1.75rem; display: flex; gap: .75rem; justify-content: flex-end; }
+    .btn-cancel { background: none; border: 1.5px solid var(--border); color: var(--text-2); padding: .65rem 1.25rem; border-radius: 9px; font-weight: 600; font-size: .88rem; cursor: pointer; font-family: inherit; }
+    .btn-cancel:hover { border-color: var(--text-2); }
+    .btn-submit { background: var(--primary); color: #fff; border: none; padding: .65rem 1.5rem; border-radius: 9px; font-weight: 700; font-size: .88rem; cursor: pointer; font-family: inherit; transition: background .2s; display: flex; align-items: center; gap: 6px; }
+    .btn-submit:hover { background: var(--primary-dk); }
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; }
+
+    /* Config banner */
+    .config-banner { background: #FFF7ED; border: 1px solid #FED7AA; color: #C2410C; border-radius: 10px; padding: .75rem 1rem; font-size: .82rem; font-weight: 500; margin: 1rem 5%; display: flex; gap: .6rem; align-items: flex-start; }
+    .config-banner strong { font-weight: 700; }
+    .config-banner code { background: rgba(0,0,0,.06); padding: .1rem .4rem; border-radius: 4px; font-family: monospace; font-size: .8rem; }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
+      .hero-desc { margin: 0 auto 2rem; }
+      .hero-btns { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { display: none; }
+      .why-grid { grid-template-columns: 1fr; }
+      .why-visual { display: none; }
+      .step:not(:last-child)::after { display: none; }
+    }
+    @media (max-width: 640px) {
+      nav, .dash-nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 4rem 5%; }
+      footer { flex-direction: column; text-align: center; }
+      .auth-header { padding: 2rem 1.5rem 1rem; }
+      .auth-body { padding: 0 1.5rem 2rem; }
+      .user-name { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     LANDING PAGE
+════════════════════════════════════════════════════════════ -->
+<div id="landingPage">
+
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="logo-icon">CTS</div>
+      Cassowary Tech
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Programs</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#why">Why Us</a></li>
+    </ul>
+    <button class="nav-cta" onclick="openAuth()">Sign In / My Learning</button>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services" onclick="toggleMenu()">Programs</a>
+    <a href="#how" onclick="toggleMenu()">How It Works</a>
+    <a href="#why" onclick="toggleMenu()">Why Us</a>
+    <a href="#" onclick="toggleMenu(); openAuth();" style="color:var(--primary);font-weight:700;">🔐 Sign In / My Learning</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="badge"><span class="badge-dot"></span> Enrolling Now — Batch 2025–26</div>
+        <h1 class="hero-title">Learn Tech Domains.<br/><span class="highlight">Build Real Projects.</span><br/>Get Expert Guidance.</h1>
+        <p class="hero-desc">Cassowary Tech Solutions offers hands-on domain training in AI, ML, Data Analytics, Cybersecurity and more — with 1-on-1 mentorship to guide you through building your major and minor projects the right way.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="openAuth()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            Explore Programs
+          </button>
+          <a href="#services" class="btn-outline">View Domains →</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">10+</span><span class="stat-lbl">Tech Domains</span></div>
+          <div class="stat"><span class="stat-num">1-on-1</span><span class="stat-lbl">Mentorship Sessions</span></div>
+          <div class="stat"><span class="stat-num">24h</span><span class="stat-lbl">Mentor Response Time</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card-stack">
+          <div class="floating-card fc-1"><div class="fc-icon" style="background:#EFF6FF">🤖</div><div><strong>AI / ML Training</strong><br/><span style="color:#94A3B8;font-size:.75rem">Hands-on with mentorship</span></div></div>
+          <div class="floating-card fc-2"><div class="fc-icon" style="background:#F0FDF4">📊</div><div><strong>Data Analytics</strong><br/><span style="color:#94A3B8;font-size:.75rem">Live project guidance</span></div></div>
+          <div class="floating-card fc-3"><div class="fc-icon" style="background:#FAF5FF">🔐</div><div><strong>Cybersecurity</strong><br/><span style="color:#94A3B8;font-size:.75rem">Domain training included</span></div></div>
+          <div class="floating-card fc-4"><div class="fc-icon" style="background:#FFFBEB">🎓</div><div><strong>1-on-1 Mentorship</strong><br/><span style="color:#94A3B8;font-size:.75rem">Expert-guided sessions</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAINING PROGRAMS -->
+  <section id="services" style="background:var(--surface)">
+    <div class="section-header fade-up">
+      <div class="section-tag">Training Programs</div>
+      <h2 class="section-title">Domain Training + Project Mentorship</h2>
+      <p class="section-sub">We train you in the domain first, then guide you step by step as you build your own project — so you truly understand what you've submitted.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-up"><div class="service-icon" style="background:#EFF6FF">🤖</div><div class="service-title">AI & Machine Learning</div><div class="service-desc">Learn core ML concepts, model training, and evaluation. Get guided as you build your own AI project — from dataset preparation to final predictions.</div><div class="service-tags"><span class="stag">Python</span><span class="stag">TensorFlow</span><span class="stag">PyTorch</span><span class="stag">Scikit-learn</span></div></div>
+      <div class="service-card fade-up"><div class="service-icon" style="background:#F0FDF4">📊</div><div class="service-title">Data Analytics & Visualization</div><div class="service-desc">Master data cleaning, EDA, statistical analysis, and dashboard building. Build a complete analytics project with mentor guidance throughout.</div><div class="service-tags"><span class="stag">Pandas</span><span class="stag">Tableau</span><span class="stag">Power BI</span><span class="stag">SQL</span></div></div>
+      <div class="service-card fade-up"><div class="service-icon" style="background:#FAF5FF">🔐</div><div class="service-title">Cybersecurity</div><div class="service-desc">Understand ethical hacking, network security, and vulnerability assessment. Apply your knowledge on guided real-world simulation projects.</div><div class="service-tags"><span class="stag">Kali Linux</span><span class="stag">Wireshark</span><span class="stag">Metasploit</span></div></div>
+      <div class="service-card fade-up"><div class="service-icon" style="background:#FFF7ED">🌐</div><div class="service-title">Web & App Development</div><div class="service-desc">Learn full-stack development from the ground up. Get expert mentorship as you build and deploy your own web or mobile application.</div><div class="service-tags"><span class="stag">React</span><span class="stag">Node.js</span><span class="stag">Django</span><span class="stag">Flutter</span></div></div>
+      <div class="service-card fade-up"><div class="service-icon" style="background:#F0FDFA">☁️</div><div class="service-title">Cloud & DevOps</div><div class="service-desc">Get trained in cloud architecture, containerization, and CI/CD. Implement a real cloud-based project under the supervision of our experts.</div><div class="service-tags"><span class="stag">AWS</span><span class="stag">Docker</span><span class="stag">Kubernetes</span><span class="stag">Jenkins</span></div></div>
+      <div class="service-card fade-up"><div class="service-icon" style="background:#FFF1F2">📝</div><div class="service-title">Project Documentation & Research</div><div class="service-desc">Learn how to write IEEE-format papers, SRS documents, and research reports. We guide you through every section so you can write it yourself with confidence.</div><div class="service-tags"><span class="stag">IEEE</span><span class="stag">SRS</span><span class="stag">LaTeX</span><span class="stag">Synopsis</span></div></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-header fade-up">
+      <div class="section-tag">Your Learning Journey</div>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-sub">A structured path from zero knowledge to a fully understood, submission-ready project — built by you, guided by us.</p>
+    </div>
+    <div class="steps">
+      <div class="step fade-up"><div class="step-num">1</div><div class="step-title">Choose Your Domain</div><div class="step-desc">Tell us your project domain, university guidelines, and deadline over WhatsApp. We'll match you with the right mentor.</div></div>
+      <div class="step fade-up"><div class="step-num">2</div><div class="step-title">Domain Training Sessions</div><div class="step-desc">Your mentor conducts focused training sessions on the concepts, tools, and technologies relevant to your project domain.</div></div>
+      <div class="step fade-up"><div class="step-num">3</div><div class="step-title">Build Under Guidance</div><div class="step-desc">You build your project with your mentor guiding each step — from architecture decisions to code reviews and debugging.</div></div>
+      <div class="step fade-up"><div class="step-num">4</div><div class="step-title">Submit with Confidence</div><div class="step-desc">Your mentor helps you finalize documentation, prepare your PPT, and practice for your viva — so you walk in ready.</div></div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section id="why" style="background:var(--surface)">
+    <div class="why-grid">
+      <div>
+        <div class="section-tag fade-up">Why Cassowary Tech</div>
+        <h2 class="section-title fade-up">We Teach You to Fish,<br/>Not Just Give You Fish</h2>
+        <p class="section-sub fade-up">Our goal is for you to actually understand your project — so you can answer every question in your viva and carry these skills into your career.</p>
+        <div class="why-list">
+          <div class="why-item fade-up"><div class="why-item-icon" style="background:#EFF6FF">🎓</div><div class="why-item-content"><h4>Domain-First Learning</h4><p>We train you in the fundamentals before touching the project — so you know exactly what you've built and why.</p></div></div>
+          <div class="why-item fade-up"><div class="why-item-icon" style="background:#F0FDF4">🧑‍💻</div><div class="why-item-content"><h4>1-on-1 Expert Mentorship</h4><p>Get paired with a mentor who specializes in your domain and guides you through every stage at your own pace.</p></div></div>
+          <div class="why-item fade-up"><div class="why-item-icon" style="background:#FAF5FF">📅</div><div class="why-item-content"><h4>Deadline-Aligned Roadmap</h4><p>We plan your training and project timeline backward from your submission date — so you're never rushing at the last minute.</p></div></div>
+          <div class="why-item fade-up"><div class="why-item-icon" style="background:#FFF7ED">📊</div><div class="why-item-content"><h4>Live Progress Tracking</h4><p>Sign in to see your training milestones and project progress in real time — always know where you stand.</p></div></div>
+        </div>
+      </div>
+      <div class="why-visual fade-up">
+        <h3>Training Across Every Major Tech Stack</h3>
+        <p>Our mentors are industry practitioners who train you hands-on using the same tools used in real-world tech companies.</p>
+        <div class="tech-pills">
+          <span class="tech-pill">Python</span><span class="tech-pill">TensorFlow</span><span class="tech-pill">React</span><span class="tech-pill">Node.js</span><span class="tech-pill">SQL / NoSQL</span><span class="tech-pill">AWS</span><span class="tech-pill">Docker</span><span class="tech-pill">Power BI</span><span class="tech-pill">Kali Linux</span><span class="tech-pill">Django</span><span class="tech-pill">Flutter</span><span class="tech-pill">Tableau</span><span class="tech-pill">OpenCV</span><span class="tech-pill">Scikit-learn</span><span class="tech-pill">LaTeX</span><span class="tech-pill">GCP</span>
+        </div>
+        <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%20need%20help%20with%20my%20project!" class="wa-inline-btn" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.133.558 4.133 1.535 5.873L0 24l6.297-1.509A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.005-1.369l-.359-.213-3.727.893.938-3.625-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+          Enroll on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT CTA -->
+  <section id="contact" style="background:linear-gradient(135deg,#0F172A,#1E3A5F);text-align:center;color:#fff">
+    <div class="section-tag" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)">Start Learning Today</div>
+    <h2 class="section-title" style="color:#fff;margin-bottom:.75rem">Ready to Master Your Domain<br/>& Ace Your Project?</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.6);margin:0 auto 2rem">Message us on WhatsApp to get a free 15-minute consultation. Tell us your domain and deadline — we'll map out your entire learning plan.</p>
+    <div class="contact-btns">
+      <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27d%20like%20to%20enroll%20in%20a%20domain%20training%20program!" class="btn-wa" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.133.558 4.133 1.535 5.873L0 24l6.297-1.509A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.005-1.369l-.359-.213-3.727.893.938-3.625-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+        Enroll on WhatsApp
+      </a>
+      <button class="btn-ghost" onclick="openAuth()" style="color:#fff;border-color:rgba(255,255,255,.5);background:transparent">View My Dashboard →</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">
+      <div class="logo-icon" style="width:32px;height:32px;border-radius:8px;font-size:.8rem">CTS</div>
+      <span>Cassowary Tech Solutions</span>
+    </div>
+    <p>© 2026 Cassowary Tech Solutions. Domain Training & Project Mentorship for Tech Students.</p>
+    <div style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;justify-content:center">
+      <button onclick="openWhitePaper()" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-family:inherit;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">📄 White Paper</button>
+      <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%20need%20help%20with%20my%20project!" target="_blank" style="color:#25D366;font-size:.85rem;font-weight:600;text-decoration:none">💬 WhatsApp Us</a>
+    </div>
+  </footer>
+
+  <!-- ── White Paper Modal ───────────────────────────────────── -->
+  <div id="wpOverlay" class="modal-overlay hidden" onclick="if(event.target===this)closeWhitePaper()">
+    <div style="background:#fff;border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,.18);width:100%;max-width:720px;max-height:88vh;overflow-y:auto;position:relative">
+
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);padding:2.5rem 2.5rem 2rem;border-radius:20px 20px 0 0;color:#fff;position:sticky;top:0;z-index:10">
+        <button onclick="closeWhitePaper()" style="position:absolute;top:1.2rem;right:1.2rem;background:rgba(255,255,255,.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center">✕</button>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+          <div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#2563EB,#0EA5E9);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem">CTS</div>
+          <div>
+            <div style="font-size:.72rem;font-weight:600;opacity:.6;letter-spacing:.1em;text-transform:uppercase">Official Document</div>
+            <div style="font-size:1.25rem;font-weight:800;letter-spacing:-.03em">White Paper</div>
+          </div>
+        </div>
+        <h2 style="font-size:1.5rem;font-weight:900;letter-spacing:-.04em;margin-bottom:.4rem">Cassowary Tech Solutions</h2>
+        <p style="opacity:.65;font-size:.88rem">Domain Training & Project Mentorship for Engineering & Technology Students</p>
+        <div style="display:flex;gap:1.5rem;margin-top:1.2rem;flex-wrap:wrap">
+          <span style="font-size:.75rem;opacity:.55">Version 1.0 &nbsp;·&nbsp; 2026</span>
+          <span style="font-size:.75rem;opacity:.55">Confidential — For Student Use Only</span>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div style="padding:2.5rem;display:flex;flex-direction:column;gap:2rem;font-family:'Inter',sans-serif">
+
+        <!-- 1. Executive Summary -->
+        <div>
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+            <div style="width:28px;height:28px;border-radius:7px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:.9rem">📋</div>
+            <h3 style="font-size:1rem;font-weight:800;color:#0F172A">1. Executive Summary</h3>
+          </div>
+          <p style="font-size:.875rem;color:#475569;line-height:1.8">Cassowary Tech Solutions is a domain training and project mentorship platform for undergraduate and postgraduate engineering students. We equip students with hands-on technical skills through structured training programs, then guide them through building their own major and minor projects — ensuring they deeply understand their work and can confidently present it at viva and evaluations.</p>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #E2E8F0">
+
+        <!-- 2. Problem Statement -->
+        <div>
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+            <div style="width:28px;height:28px;border-radius:7px;background:#FFF1F2;display:flex;align-items:center;justify-content:center;font-size:.9rem">🎯</div>
+            <h3 style="font-size:1rem;font-weight:800;color:#0F172A">2. Problem Statement</h3>
+          </div>
+          <p style="font-size:.875rem;color:#475569;line-height:1.8">Engineering students across India struggle to bridge the gap between classroom theory and real-world technical implementation. Most lack access to domain-specific mentors, practical hands-on exposure to industry tools, and structured guidance for their major and minor projects. The result is projects built without genuine understanding — leaving students unable to explain or defend their own work. Cassowary Tech Solutions was founded to solve this: by training students in the domain first and mentoring them through every step of their project.</p>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #E2E8F0">
+
+        <!-- 3. Our Services -->
+        <div>
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem">
+            <div style="width:28px;height:28px;border-radius:7px;background:#F0FDF4;display:flex;align-items:center;justify-content:center;font-size:.9rem">⚙️</div>
+            <h3 style="font-size:1rem;font-weight:800;color:#0F172A">3. Services Offered</h3>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem">
+            <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:.9rem">
+              <div style="font-size:.85rem;font-weight:700;color:#0F172A;margin-bottom:.3rem">🤖 AI & Machine Learning</div>
+              <div style="font-size:.78rem;color:#64748B;line-height:1.6">Foundations, model training, NLP, computer vision — then guided project implementation</div>
+            </div>
+            <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:.9rem">
+              <div style="font-size:.85rem;font-weight:700;color:#0F172A;margin-bottom:.3rem">📊 Data Analytics</div>
+              <div style="font-size:.78rem;color:#64748B;line-height:1.6">EDA, visualization, statistical modeling with Tableau & Power BI — live project walkthrough</div>
+            </div>
+            <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:.9rem">
+              <div style="font-size:.85rem;font-weight:700;color:#0F172A;margin-bottom:.3rem">🔐 Cybersecurity</div>
+              <div style="font-size:.78rem;color:#64748B;line-height:1.6">Ethical hacking, network security, vulnerability assessment — simulation-based training</div>
+            </div>
+            <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:.9rem">
+              <div style="font-size:.85rem;font-weight:700;color:#0F172A;margin-bottom:.3rem">🌐 Web & App Development</div>
+              <div style="font-size:.78rem;color:#64748B;line-height:1.6">Full-stack training from basics to deployment — mentor-guided project building</div>
+            </div>
+            <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:.9rem">
+              <div style="font-size:.85rem;font-weight:700;color:#0F172A;margin-bottom:.3rem">☁️ Cloud & DevOps</div>
+              <div style="font-size:.78rem;color:#64748B;line-height:1.6">AWS/GCP/Azure, Docker, Kubernetes — hands-on training with real cloud project guidance</div>
+            </div>
+            <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:.9rem">
+              <div style="font-size:.85rem;font-weight:700;color:#0F172A;margin-bottom:.3rem">📝 Documentation & Research</div>
+              <div style="font-size:.78rem;color:#64748B;line-height:1.6">IEEE format, SRS, synopsis, LaTeX — guided writing so you understand every section</div>
+            </div>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #E2E8F0">
+
+        <!-- 4. Methodology -->
+        <div>
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+            <div style="width:28px;height:28px;border-radius:7px;background:#FAF5FF;display:flex;align-items:center;justify-content:center;font-size:.9rem">🔬</div>
+            <h3 style="font-size:1rem;font-weight:800;color:#0F172A">4. Delivery Methodology</h3>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.6rem">
+            <div style="display:flex;gap:.75rem;align-items:flex-start">
+              <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#0EA5E9);color:#fff;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</div>
+              <div><span style="font-size:.875rem;font-weight:700;color:#0F172A">Enrolment & Domain Mapping — </span><span style="font-size:.875rem;color:#475569;line-height:1.7">Student shares their domain of interest, project topic, university guidelines, and deadline. A mentor is assigned and a personalised learning plan is created.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start">
+              <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#0EA5E9);color:#fff;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</div>
+              <div><span style="font-size:.875rem;font-weight:700;color:#0F172A">Domain Training Sessions — </span><span style="font-size:.875rem;color:#475569;line-height:1.7">The mentor conducts focused, hands-on training sessions covering core concepts, tools, frameworks, and industry practices relevant to the student's project domain.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start">
+              <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#0EA5E9);color:#fff;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</div>
+              <div><span style="font-size:.875rem;font-weight:700;color:#0F172A">Guided Project Building — </span><span style="font-size:.875rem;color:#475569;line-height:1.7">The student builds the project themselves with the mentor guiding every step — architecture, code, testing, and iteration — via live sessions and WhatsApp support.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start">
+              <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#0EA5E9);color:#fff;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">4</div>
+              <div><span style="font-size:.875rem;font-weight:700;color:#0F172A">Review & Refinement — </span><span style="font-size:.875rem;color:#475569;line-height:1.7">The mentor reviews the completed project for correctness, completeness, and alignment with university criteria, then guides the student through necessary refinements.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start">
+              <div style="width:24px;height:24px;border-radius:50%;background:#22C55E;color:#fff;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">5</div>
+              <div><span style="font-size:.875rem;font-weight:700;color:#0F172A">Submission Prep & Viva Support — </span><span style="font-size:.875rem;color:#475569;line-height:1.7">Mentor helps finalise documentation, prepare the PPT, and practise viva questions — ensuring the student can confidently explain every aspect of their own project.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #E2E8F0">
+
+        <!-- 5. Quality & Confidentiality -->
+        <div>
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+            <div style="width:28px;height:28px;border-radius:7px;background:#FFFBEB;display:flex;align-items:center;justify-content:center;font-size:.9rem">🔒</div>
+            <h3 style="font-size:1rem;font-weight:800;color:#0F172A">5. Quality & Confidentiality Policy</h3>
+          </div>
+          <p style="font-size:.875rem;color:#475569;line-height:1.8;margin-bottom:.75rem">Every project delivered by Cassowary Tech Solutions is built from scratch and tailored specifically to the student's requirements. We maintain a strict confidentiality policy — student project details, personal information, and all shared materials are never disclosed to third parties. Projects are not reused or resold under any circumstances.</p>
+          <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+            <span style="background:#F0FDF4;color:#15803D;font-size:.75rem;font-weight:600;padding:.3rem .75rem;border-radius:100px;border:1px solid #BBF7D0">✓ Original Work</span>
+            <span style="background:#EFF6FF;color:#1D4ED8;font-size:.75rem;font-weight:600;padding:.3rem .75rem;border-radius:100px;border:1px solid #BFDBFE">✓ NDA Protected</span>
+            <span style="background:#FAF5FF;color:#7C3AED;font-size:.75rem;font-weight:600;padding:.3rem .75rem;border-radius:100px;border:1px solid #DDD6FE">✓ Never Resold</span>
+            <span style="background:#FFF7ED;color:#C2410C;font-size:.75rem;font-weight:600;padding:.3rem .75rem;border-radius:100px;border:1px solid #FED7AA">✓ Deadline Guaranteed</span>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #E2E8F0">
+
+        <!-- 6. Contact -->
+        <div style="background:linear-gradient(135deg,#EFF6FF,#F0FDFA);border:1px solid #BFDBFE;border-radius:14px;padding:1.5rem;text-align:center">
+          <div style="font-size:1rem;font-weight:800;color:#0F172A;margin-bottom:.4rem">Start Your Learning Journey with Cassowary Tech</div>
+          <p style="font-size:.85rem;color:#475569;margin-bottom:1.25rem">Message us on WhatsApp for a free consultation. Tell us your domain, project idea, and deadline — we'll build your personalised training plan within 24 hours.</p>
+          <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%20read%20the%20White%20Paper%20and%20I%27d%20like%20to%20enroll%20in%20a%20training%20program!" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:.7rem 1.5rem;border-radius:10px;font-weight:700;font-size:.88rem;text-decoration:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.133.558 4.133 1.535 5.873L0 24l6.297-1.509A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.005-1.369l-.359-.213-3.727.893.938-3.625-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+            Contact Us on WhatsApp
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openWhitePaper()  { document.getElementById("wpOverlay").classList.remove("hidden"); document.body.style.overflow = "hidden"; }
+    function closeWhitePaper() { document.getElementById("wpOverlay").classList.add("hidden");    document.body.style.overflow = ""; }
+  </script>
+
+</div><!-- /landingPage -->
+
+<!-- ════════════════════════════════════════════════════════════
+     AUTH MODAL
+════════════════════════════════════════════════════════════ -->
+<div id="authOverlay" class="auth-overlay hidden">
+  <div class="auth-modal">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <div class="auth-header">
+      <div class="auth-logo">CTS</div>
+      <h2>Welcome to Cassowary Tech</h2>
+      <p>Sign in to start or track your project</p>
+    </div>
+    <div class="auth-body">
+
+      <!-- Step: Choose Method -->
+      <div id="stepChoose" class="auth-step">
+        <button class="btn-google" id="googleSignInBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+        <div class="auth-divider">or use your phone number</div>
+        <div class="auth-input-group">
+          <label>Phone Number</label>
+          <div class="phone-row">
+            <span class="country-code">🇮🇳 +91</span>
+            <input type="tel" id="phoneInput" class="auth-input" placeholder="98765 43210" maxlength="10" inputmode="numeric" />
+          </div>
+        </div>
+        <div id="recaptcha-container"></div>
+        <button class="btn-auth" id="sendOtpBtn">
+          Send OTP
+        </button>
+        <div id="authError" class="auth-error hidden"></div>
+      </div>
+
+      <!-- Step: OTP Verify -->
+      <div id="stepOtp" class="auth-step hidden">
+        <button class="auth-back" onclick="showStep('choose')">← Back</button>
+        <div class="auth-info" id="otpSentMsg">OTP sent to +91 XXXXXXXXXX</div>
+        <div class="auth-input-group">
+          <label style="text-align:center;display:block">Enter 6-digit OTP</label>
+          <div class="otp-row">
+            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" />
+            <input type="text" class="otp-box" maxlength="1" inputmode="numeric" />
+          </div>
+        </div>
+        <button class="btn-auth" id="verifyOtpBtn">Verify & Sign In</button>
+        <div id="otpError" class="auth-error hidden"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     DASHBOARD
+════════════════════════════════════════════════════════════ -->
+<div id="dashboard" class="hidden">
+
+  <nav class="dash-nav">
+    <a href="#" class="nav-logo" onclick="showLanding()">
+      <div class="logo-icon">CTS</div>
+      Cassowary Tech
+    </a>
+    <div class="dash-user">
+      <div class="user-avatar" id="userAvatar"></div>
+      <span class="user-name" id="userName"></span>
+      <button class="btn-logout" onclick="signOutUser()">Sign Out</button>
+    </div>
+  </nav>
+
+  <div id="configBanner" class="config-banner hidden">
+    ⚙️ <span><strong>Setup needed:</strong> Replace the Firebase config in this file with your own project credentials from <a href="https://console.firebase.google.com" target="_blank" style="color:inherit">console.firebase.google.com</a>. Also enable <strong>Google Auth</strong>, <strong>Phone Auth</strong>, and <strong>Firestore</strong> in your Firebase project.</span>
+  </div>
+
+  <div class="dash-content">
+    <div class="dash-top">
+      <div class="dash-greeting">
+        <h2 id="dashGreeting">My Dashboard</h2>
+        <p id="dashSubtitle">Track your training progress and project guidance in real time</p>
+      </div>
+      <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27d%20like%20to%20enroll%20in%20a%20training%20program!" class="btn-new-project" target="_blank">
+        + Enroll in a Program
+      </a>
+    </div>
+
+    <!-- Tabs -->
+    <div class="dash-tabs">
+      <button class="dash-tab active" id="tabLearning" onclick="switchTab('learning')">🎓 Learning Tracking</button>
+      <button class="dash-tab" id="tabGuidance" onclick="switchTab('guidance')">🧭 Project Guidance</button>
+    </div>
+
+    <!-- Loading state -->
+    <div id="projectsLoading" style="text-align:center;padding:4rem 0;color:var(--text-3)">
+      <div class="spinner" style="width:32px;height:32px;border-color:var(--border);border-top-color:var(--primary);margin:0 auto 1rem"></div>
+      <p>Loading your dashboard...</p>
+    </div>
+
+    <!-- Learning grid -->
+    <div id="learningGrid" class="projects-grid hidden"></div>
+    <!-- Guidance grid -->
+    <div id="guidanceGrid" class="projects-grid hidden"></div>
+
+    <!-- Empty: Learning -->
+    <div id="emptyLearning" class="empty-state hidden">
+      <div class="empty-icon">🎓</div>
+      <h3>No Training Enrolled Yet</h3>
+      <p>You haven't enrolled in any domain training program yet. Message us on WhatsApp and we'll set up your personalised learning plan.</p>
+      <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27d%20like%20to%20enroll%20in%20a%20domain%20training%20program!" class="btn-primary" target="_blank" style="display:inline-flex;margin:0 auto">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.133.558 4.133 1.535 5.873L0 24l6.297-1.509A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.005-1.369l-.359-.213-3.727.893.938-3.625-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+        Enroll on WhatsApp
+      </a>
+    </div>
+
+    <!-- Empty: Guidance -->
+    <div id="emptyGuidance" class="empty-state hidden">
+      <div class="empty-icon">🧭</div>
+      <h3>No Project Guidance Active</h3>
+      <p>You don't have any active project guidance sessions yet. Once you enroll, your mentor will set up your project guidance here.</p>
+      <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27d%20like%20to%20get%20project%20guidance!" class="btn-primary" target="_blank" style="display:inline-flex;margin:0 auto">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.133.558 4.133 1.535 5.873L0 24l6.297-1.509A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.005-1.369l-.359-.213-3.727.893.938-3.625-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+        Get Guidance on WhatsApp
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- WA Floating Button -->
+<a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%20need%20help%20with%20my%20project!" class="wa-fab" target="_blank" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.133.558 4.133 1.535 5.873L0 24l6.297-1.509A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.005-1.369l-.359-.213-3.727.893.938-3.625-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+</a>
+
+<!-- ════════════════════════════════════════════════════════════
+     FIREBASE + APP LOGIC
+════════════════════════════════════════════════════════════ -->
+<script type="module">
+  import { initializeApp }           from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup,
+           signInWithPhoneNumber, RecaptchaVerifier,
+           onAuthStateChanged, signOut }
+                                     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, collection, query,
+           where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyCv9l0mJebNISjpvRRHzxC93l6fRGfPYwc",
+    authDomain:        "cassowarytechsolutions.firebaseapp.com",
+    projectId:         "cassowarytechsolutions",
+    storageBucket:     "cassowarytechsolutions.firebasestorage.app",
+    messagingSenderId: "22835399617",
+    appId:             "1:22835399617:web:485db9e5e3cc9cfec0fd40",
+    measurementId:     "G-67F7KMYGPY"
+  };
+
+  // ── Init ──────────────────────────────────────────────────
+  let app, auth, db, recaptchaVerifier, confirmationResult;
+  let firebaseReady = false;
+
+  try {
+    app  = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db   = getFirestore(app);
+    firebaseReady = true;
+  } catch(e) {
+    console.warn("Firebase not configured yet:", e.message);
+    document.getElementById("configBanner").classList.remove("hidden");
+  }
+
+  // ── Constants ─────────────────────────────────────────────
+  const STAGES = {
+    learning: [
+      { label: "Enrolled",             short: "📋" },
+      { label: "Training in\nProgress",short: "📚" },
+      { label: "Assessment\n& Review", short: "🔍" },
+      { label: "Completed",            short: "🎓" }
+    ],
+    guidance: [
+      { label: "Requirement\nDiscussion", short: "💬" },
+      { label: "Building with\nGuidance",  short: "🛠️" },
+      { label: "Review &\nRefinement",     short: "🔍" },
+      { label: "Ready to\nSubmit",         short: "✅" }
+    ]
+  };
+  const DOMAIN_CLASSES = {
+    "AI / ML": "domain-ai", "Data Analytics": "domain-data",
+    "Cybersecurity": "domain-cyber", "Web Development": "domain-web",
+    "Cloud / DevOps": "domain-cloud", "Documentation": "domain-doc"
+  };
+  const STATUS_LABELS = {
+    learning: ["Enrolled", "Training in Progress", "Assessment & Review", "Completed"],
+    guidance: ["Requirement Discussion", "Building with Guidance", "Review & Refinement", "Ready to Submit"]
+  };
+
+  // ── Auth state listener ───────────────────────────────────
+  if (firebaseReady) {
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        closeAuth();
+        showDashboard(user);
+      }
+    });
+  }
+
+  // ── Google Sign-In ────────────────────────────────────────
+  window.handleGoogleSignIn = async function() {
+    if (!firebaseReady) { showConfigError(); return; }
+    const provider = new GoogleAuthProvider();
+    try {
+      setLoading("googleSignInBtn", true);
+      await signInWithPopup(auth, provider);
+    } catch(e) {
+      showAuthError(e.message);
+      setLoading("googleSignInBtn", false);
+    }
+  };
+
+  // ── Phone: Send OTP ───────────────────────────────────────
+  window.handleSendOtp = async function() {
+    if (!firebaseReady) { showConfigError(); return; }
+    const phone = document.getElementById("phoneInput").value.trim();
+    if (!/^\d{10}$/.test(phone)) {
+      showAuthError("Please enter a valid 10-digit phone number.");
+      return;
+    }
+    try {
+      setLoading("sendOtpBtn", true);
+      hideAuthError();
+      if (!recaptchaVerifier) {
+        recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", { size: "invisible" });
+      }
+      confirmationResult = await signInWithPhoneNumber(auth, "+91" + phone, recaptchaVerifier);
+      document.getElementById("otpSentMsg").textContent = `OTP sent to +91 ${phone}`;
+      showStep("otp");
+    } catch(e) {
+      showAuthError(e.message || "Failed to send OTP. Check the number and try again.");
+      if (recaptchaVerifier) { try { recaptchaVerifier.clear(); } catch(_){} recaptchaVerifier = null; }
+    } finally {
+      setLoading("sendOtpBtn", false);
+    }
+  };
+
+  // ── Phone: Verify OTP ─────────────────────────────────────
+  window.handleVerifyOtp = async function() {
+    if (!confirmationResult) { showOtpError("Please request OTP again."); return; }
+    const otp = Array.from(document.querySelectorAll(".otp-box")).map(i => i.value).join("").trim();
+    if (otp.length !== 6) { showOtpError("Enter all 6 digits."); return; }
+    try {
+      setLoading("verifyOtpBtn", true);
+      hideOtpError();
+      await confirmationResult.confirm(otp);
+    } catch(e) {
+      showOtpError("Incorrect OTP. Please try again.");
+      setLoading("verifyOtpBtn", false);
+    }
+  };
+
+  // ── Sign Out ──────────────────────────────────────────────
+  window.signOutUser = async function() {
+    if (firebaseReady) await signOut(auth);
+    confirmationResult = null;
+    document.getElementById("dashboard").classList.add("hidden");
+    document.getElementById("landingPage").classList.remove("hidden");
+    document.querySelector(".wa-fab").style.display = "";
+    window.resetAuthModal?.();
+  };
+
+  // ── Show Dashboard ────────────────────────────────────────
+  async function showDashboard(user) {
+    document.getElementById("landingPage").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+    document.querySelector(".wa-fab").style.display = "none";
+
+    // Set user info
+    const name   = user.displayName || user.phoneNumber || "Student";
+    const initials = name.charAt(0).toUpperCase();
+    const avatarEl  = document.getElementById("userAvatar");
+    if (user.photoURL) {
+      avatarEl.innerHTML = `<img src="${user.photoURL}" alt="Avatar" />`;
+    } else {
+      avatarEl.textContent = initials;
+    }
+    document.getElementById("userName").textContent = name;
+    document.getElementById("dashGreeting").textContent = `Welcome back, ${name.split(" ")[0]} 👋`;
+
+    // Load projects
+    await loadProjects(user.uid);
+  }
+
+  // ── Tab switcher ──────────────────────────────────────────
+  let activeTab = "learning";
+  window.switchTab = function(tab) {
+    activeTab = tab;
+    document.getElementById("tabLearning").classList.toggle("active", tab === "learning");
+    document.getElementById("tabGuidance").classList.toggle("active", tab === "guidance");
+    document.getElementById("learningGrid").classList.toggle("hidden", tab !== "learning");
+    document.getElementById("guidanceGrid").classList.toggle("hidden", tab !== "guidance");
+    document.getElementById("emptyLearning").classList.toggle("hidden",
+      tab !== "learning" || !document.getElementById("learningGrid").classList.contains("hidden") ? true :
+      document.getElementById("learningGrid").children.length > 0);
+    document.getElementById("emptyGuidance").classList.toggle("hidden",
+      tab !== "guidance" || !document.getElementById("guidanceGrid").classList.contains("hidden") ? true :
+      document.getElementById("guidanceGrid").children.length > 0);
+    refreshEmptyStates();
+  };
+
+  function refreshEmptyStates() {
+    const lg = document.getElementById("learningGrid");
+    const gg = document.getElementById("guidanceGrid");
+    const hasLearning = lg.children.length > 0;
+    const hasGuidance = gg.children.length > 0;
+    lg.classList.toggle("hidden", activeTab !== "learning" || !hasLearning);
+    gg.classList.toggle("hidden", activeTab !== "guidance" || !hasGuidance);
+    document.getElementById("emptyLearning").classList.toggle("hidden", activeTab !== "learning" || hasLearning);
+    document.getElementById("emptyGuidance").classList.toggle("hidden", activeTab !== "guidance" || hasGuidance);
+  }
+
+  // ── Load Projects from Firestore ──────────────────────────
+  async function loadProjects(uid) {
+    document.getElementById("projectsLoading").classList.remove("hidden");
+    ["learningGrid","guidanceGrid","emptyLearning","emptyGuidance"].forEach(id =>
+      document.getElementById(id).classList.add("hidden"));
+
+    try {
+      const q = query(collection(db, "projects"), where("userId", "==", uid));
+      const snap = await getDocs(q);
+      const projects = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.createdAt?.toDate?.() || new Date(0)) - (a.createdAt?.toDate?.() || new Date(0)));
+
+      document.getElementById("projectsLoading").classList.add("hidden");
+
+      const learningGrid = document.getElementById("learningGrid");
+      const guidanceGrid = document.getElementById("guidanceGrid");
+      learningGrid.innerHTML = "";
+      guidanceGrid.innerHTML = "";
+
+      projects.forEach(p => {
+        const type = p.type === "guidance" ? "guidance" : "learning";
+        const card = buildProjectCard(p, type);
+        (type === "guidance" ? guidanceGrid : learningGrid).appendChild(card);
+      });
+
+      refreshEmptyStates();
+    } catch(e) {
+      console.error("Error loading projects:", e);
+      document.getElementById("projectsLoading").innerHTML =
+        `<p style="color:#EF4444">Failed to load projects. Check your Firestore rules.</p>`;
+    }
+  }
+
+  // ── Build Project Card ────────────────────────────────────
+  function buildProjectCard(p, type = "learning") {
+    const stage = p.stage ?? 0;
+    const stageList = STAGES[type];
+    const statusLabels = STATUS_LABELS[type];
+    const domainClass = DOMAIN_CLASSES[p.domain] || "domain-other";
+    const deadline = p.deadline ? new Date(p.deadline).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) : "—";
+    const updated  = p.updatedAt?.toDate ? p.updatedAt.toDate().toLocaleDateString("en-IN", { day:"numeric", month:"short" }) : "—";
+    const typeLabel = type === "guidance" ? "🧭 Project Guidance" : "🎓 Domain Training";
+    const typeColor = type === "guidance" ? "color:#7C3AED;background:#FAF5FF" : "color:#1D4ED8;background:#EFF6FF";
+
+    // Stage stepper HTML
+    let stepperHtml = '<div class="stage-stepper">';
+    for (let i = 0; i < stageList.length; i++) {
+      const isDone   = i < stage;
+      const isActive = i === stage;
+      const dotClass = `stage-dot s${i}${isDone ? " done" : isActive ? " active" : ""}`;
+      const lblClass = `stage-lbl${isActive ? " active-lbl" : ""}`;
+      stepperHtml += `
+        <div class="stage-dot-wrap">
+          <div class="${dotClass}">${isDone ? "✓" : (i+1)}</div>
+          <div class="${lblClass}" style="font-size:.6rem;text-align:center;white-space:pre-line;max-width:52px">${stageList[i].label}</div>
+        </div>`;
+      if (i < stageList.length - 1) {
+        stepperHtml += `<div class="stage-line${isDone ? " done" : ""}"></div>`;
+      }
+    }
+    stepperHtml += '</div>';
+
+    const card = document.createElement("div");
+    card.className = "project-card";
+    card.innerHTML = `
+      <div class="project-card-top">
+        <div>
+          <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.4rem">
+            <span class="project-domain ${domainClass}">${p.domain || "General"}</span>
+            <span style="font-size:.7rem;font-weight:700;padding:.25rem .65rem;border-radius:100px;${typeColor}">${typeLabel}</span>
+          </div>
+          <div class="project-title">${p.title || "Untitled"}</div>
+        </div>
+        <div class="status-badge status-${stage}"><span class="status-dot"></span>${statusLabels[stage]}</div>
+      </div>
+      ${p.description ? `<div class="project-desc">${p.description}</div>` : ""}
+      ${stepperHtml}
+      <div class="project-meta">
+        <span class="meta-item">📅 Deadline: ${deadline}</span>
+        <span class="meta-item">🔄 Updated: ${updated}</span>
+      </div>
+      ${p.notes ? `<div class="project-notes">💬 ${p.notes}</div>` : ""}
+      <div class="project-card-footer">
+        <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%20have%20a%20question%20about%3A%20${encodeURIComponent(p.title || '')}" class="btn-card-wa" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.133.558 4.133 1.535 5.873L0 24l6.297-1.509A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.005-1.369l-.359-.213-3.727.893.938-3.625-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+          Message Mentor
+        </a>
+        <span style="font-size:.72rem;color:var(--text-3)">ID: ${p.id.slice(0,8).toUpperCase()}</span>
+      </div>`;
+    return card;
+  }
+
+  // ── Helpers ───────────────────────────────────────────────
+  function showAuthError(msg) { const el = document.getElementById("authError"); el.textContent = msg; el.classList.remove("hidden"); }
+  function hideAuthError()    { document.getElementById("authError").classList.add("hidden"); }
+  function showOtpError(msg)  { const el = document.getElementById("otpError");  el.textContent = msg; el.classList.remove("hidden"); }
+  function hideOtpError()     { document.getElementById("otpError").classList.add("hidden"); }
+
+  function showConfigError() {
+    showAuthError("Firebase is not configured yet. Please add your Firebase config to the HTML file first.");
+    document.getElementById("configBanner").classList.remove("hidden");
+  }
+
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.disabled = loading;
+    if (btnId === "googleSignInBtn") {
+      btn.innerHTML = loading ? '<span class="spinner" style="border-color:rgba(0,0,0,.15);border-top-color:var(--primary)"></span> Signing in...'
+        : '<svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Continue with Google';
+    } else {
+      btn.innerHTML = loading ? '<span class="spinner"></span> Please wait...' : (btnId === "sendOtpBtn" ? "Send OTP" : "Verify & Sign In");
+    }
+  }
+
+  // ── Reset auth modal to clean state ──────────────────────
+  window.resetAuthModal = function() {
+    // Reset Google button
+    const gBtn = document.getElementById("googleSignInBtn");
+    if (gBtn) {
+      gBtn.disabled = false;
+      gBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Continue with Google';
+    }
+    // Reset OTP & Send buttons
+    const sBtn = document.getElementById("sendOtpBtn");
+    if (sBtn) { sBtn.disabled = false; sBtn.innerHTML = "Send OTP"; }
+    const vBtn = document.getElementById("verifyOtpBtn");
+    if (vBtn) { vBtn.disabled = false; vBtn.innerHTML = "Verify & Sign In"; }
+    // Clear inputs
+    const phoneInput = document.getElementById("phoneInput");
+    if (phoneInput) phoneInput.value = "";
+    document.querySelectorAll(".otp-box").forEach(b => b.value = "");
+    // Hide errors
+    document.getElementById("authError")?.classList.add("hidden");
+    document.getElementById("otpError")?.classList.add("hidden");
+    // Go back to choose step
+    document.getElementById("stepChoose")?.classList.remove("hidden");
+    document.getElementById("stepOtp")?.classList.add("hidden");
+    // Reset confirmationResult
+    confirmationResult = null;
+  };
+
+  // ── Expose globals ────────────────────────────────────────
+  window._handleGoogleSignIn = window.handleGoogleSignIn;
+  window._handleSendOtp      = window.handleSendOtp;
+  window._handleVerifyOtp    = window.handleVerifyOtp;
+</script>
+
+<!-- ════════════════════════════════════════════════════════════
+     UI HELPERS (non-module)
+════════════════════════════════════════════════════════════ -->
+<script>
+  // ── Modal ─────────────────────────────────────────────────
+  function openAuth() {
+    window.resetAuthModal?.();
+    document.getElementById("authOverlay").classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+  function closeAuth() {
+    document.getElementById("authOverlay").classList.add("hidden");
+    document.body.style.overflow = "";
+    window.resetAuthModal?.();
+  }
+  function showLanding() {
+    document.getElementById("dashboard").classList.add("hidden");
+    document.getElementById("landingPage").classList.remove("hidden");
+    document.querySelector(".wa-fab").style.display = "";
+  }
+
+  // ── Auth Steps ────────────────────────────────────────────
+  function showStep(step) {
+    document.getElementById("stepChoose").classList.toggle("hidden", step !== "choose");
+    document.getElementById("stepOtp").classList.toggle("hidden", step !== "otp");
+  }
+
+  // ── OTP boxes: auto-advance ───────────────────────────────
+  document.querySelectorAll(".otp-box").forEach((box, i, all) => {
+    box.addEventListener("input", () => {
+      box.value = box.value.replace(/\D/g, "").slice(0, 1);
+      if (box.value && i < all.length - 1) all[i + 1].focus();
+    });
+    box.addEventListener("keydown", e => {
+      if (e.key === "Backspace" && !box.value && i > 0) all[i - 1].focus();
+    });
+  });
+
+  // ── Button wiring ─────────────────────────────────────────
+  document.getElementById("googleSignInBtn").addEventListener("click", () => window.handleGoogleSignIn?.());
+  document.getElementById("sendOtpBtn").addEventListener("click",      () => window.handleSendOtp?.());
+  document.getElementById("verifyOtpBtn").addEventListener("click",    () => window.handleVerifyOtp?.());
+
+  // Phone input: numbers only
+  document.getElementById("phoneInput").addEventListener("input", function() {
+    this.value = this.value.replace(/\D/g, "").slice(0, 10);
+  });
+  document.getElementById("phoneInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") window.handleSendOtp?.();
+  });
+
+  // Close overlay on backdrop click
+  document.getElementById("authOverlay").addEventListener("click", e => {
+    if (e.target === document.getElementById("authOverlay")) closeAuth();
+  });
+
+  // Mobile menu
+  function toggleMenu() { document.getElementById("mobileMenu").classList.toggle("open"); }
+  document.addEventListener("click", e => {
+    const m = document.getElementById("mobileMenu");
+    if (m && !m.contains(e.target) && !document.querySelector(".hamburger").contains(e.target)) m.classList.remove("open");
+  });
+
+  // Scroll animations
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
+  }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+  document.querySelectorAll(".fade-up").forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
